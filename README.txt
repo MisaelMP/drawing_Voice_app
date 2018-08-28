@@ -1,3 +1,7 @@
-# README
+# Final Project
+----------------
 
-###### Coming soon
+## Voice drawing app
+-------------
+
+#### About the project
