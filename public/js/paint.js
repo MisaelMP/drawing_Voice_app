@@ -1,16 +1,11 @@
-var brushColor;
-var bgColor;
-var drawSize;
-var penStyle;
-var paint;
-var socket;
-var input;
-var analyzer;
-var r, g, b;
-var start;
-function ticks () {
-  return millis() / 10;
-}
+let brushColor;
+let bgColor;
+let drawSize;
+let penStyle;
+let paint;
+let socket;
+let r, g, b;
+
 
 function _(id) {
   return document.getElementById(id);
@@ -24,9 +19,8 @@ function setup() {
   bgColor = '#f1ebeb';
   drawSize = 3;
   penStyle = 'pencil';
-  // Create an Audio input
-  input = new p5.AudioIn();
-  input.start();
+
+
   r = random(255);
   g = random(255);
   b = random(255);
@@ -103,31 +97,11 @@ function setup() {
 function newDrawing(data) {
   console.log(data);
   // debugger;
-  const volume = input.getLevel();
-  const threshold = 0.1;
-  if (volume > threshold) {
-    stroke(0);
-    r = random(255);
-    g = random(255);
-    b = random(255);
-    ellipse(data.width, height * data.height, 10 + volume * 200, 10 + volume * 200);
-  }
 
-  // Graph the overall potential volume, w/ a line at the threshold
-  const y = map(volume, 0, 1, height, 0);
-  const ythreshold = map(threshold, 0, 1, height, 0);
-
-  noStroke();
-  fill(175);
-  ellipse(0, 0, 2, height);
-  // Then draw a ellipse on the graph, sized according to volume
-  fill(r, g, b, 127);
-  ellipse(0, y, 20, y);
-  stroke(0);
-  line(0, ythreshold, 19, ythreshold);
+///  drawing paint function starts here ///////////
 
 console.log('brushColor', data.brushColor)
-  fill(data.r, data.g, data.b);
+  fill(data.brushColor);
   stroke(data.r, data.g, data.b);
   console.log('post-brushColor')
   // debugger;
@@ -145,9 +119,9 @@ console.log('brushColor', data.brushColor)
 }
 
 function mouseDragged() {
-  console.log(`Sending: ${mouseX} , ${mouseY}, ${drawSize}, ${brushColor}, ${penStyle}`)
+  console.log(`Sending: ${mouseX} , ${mouseY}, ${drawSize}, ${brushColor}, ${penStyle}, ${bgColor}`)
   fill(brushColor);
-  stroke(brushColor);
+  stroke(r ,g, b);
 
   const data = {
     brushColor: brushColor,
@@ -157,6 +131,7 @@ function mouseDragged() {
     x: mouseX,
     y: mouseY,
     drawSize: drawSize,
+    bgColor: bgColor
   }
   socket.emit('mouse', data);
 
@@ -172,45 +147,4 @@ function mouseDragged() {
     rect(mouseX, mouseY, drawSize / 1.2, drawSize / 1.2);
   }
 
-}
-
-
-function draw() {
-  if (!start) {
-    start = millis();
-  }
-  // Get the overall volume (between 0 and 1.0)
-  const volume = input.getLevel();
-  const info = {
-    input: input,
-    analiyzer: analyzer,
-    volume: volume,
-    r:r,g:g,b:b,
-    width: ticks(),
-    height: Math.random()
-  }
-  socket.emit('mouse', info);
-  // If the volume > 0.1,  a ellipse is drawn.
-  // The louder the volume, the larger the ellipse.
-  const threshold = 0.1;
-  if (volume > threshold) {
-    stroke(0);
-    r = random(255);
-    g = random(255);
-    b = random(255);
-    ellipse(ticks(), height * info.height, 10 + volume * 200, 10 + volume * 200);
-  }
-
-  // Graph the overall potential volume, w/ a line at the threshold
-  const y = map(volume, 0, 1, height, 0);
-  const ythreshold = map(threshold, 0, 1, height, 0);
-
-  noStroke();
-  fill(175);
-  ellipse(0, 0, 2, height);
-  // Then draw a ellipse on the graph, sized according to volume
-  fill(r, g, b, 127);
-  ellipse(0, y, 20, y);
-  stroke(0);
-  line(0, ythreshold, 19, ythreshold);
 }

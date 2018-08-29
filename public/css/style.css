@@ -5,7 +5,7 @@ body{
 	padding: 0px;
 	max-width: 100vw;
 	max-height: 10vh;
-	background: #f1ebeb;
+	background: #000;
     font-family: 'Lato', sans-serif;
 	overflow: hidden;
 }
@@ -17,12 +17,12 @@ body{
 	height: 100vh;
 	background: #16161d;
 	padding: 15px;
-	color: #eee;
+	color: #f4f5eb;
 }
 #sidebar .heading h2 {
 	margin-top: -10px;
 	font-size: 32px;
-	color: rgb(230,230,230);
+	color: #f4f5eb;
     font-family: 'Roboto', sans-serif;
 
 }
@@ -32,7 +32,7 @@ body{
 }
 #sidebar .row p,span {
 	font-size: 18px;
-	color: rgb(230,230,230);
+	color: #f4f5eb;
 	font-weight: 400;
 	margin-bottom: 8px;
 }
@@ -61,7 +61,7 @@ body{
     width: 140px;
     height: 6px;
     background-color: rgb(250,250,250);
-    box-shadow: inset 1px 1px 3px #eee;
+    box-shadow: inset 1px 1px 3px #f4f5eb;
     border-radius: 10px;
     cursor: pointer;
     -webkit-appearance: none;
